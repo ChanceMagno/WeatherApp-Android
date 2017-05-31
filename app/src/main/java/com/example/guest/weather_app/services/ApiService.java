@@ -40,7 +40,6 @@ public class ApiService {
     }
 
 
-
         public static ArrayList<DayForecast> processResults(Response response) {
                 ArrayList<DayForecast> dayForecasts = new ArrayList<>();
         try {
