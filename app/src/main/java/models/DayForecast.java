@@ -15,7 +15,7 @@ public class DayForecast {
     public DayForecast(String mName, String mMain, String mDescription, String mIcon,
                        String mCurrentTemp, String mMaxTemp, String mMinTemp, String mCloudPercentage) {
         this.mName = mName;
-        this.mMain = mName;
+        this.mMain = mMain;
         this.mDescription = mDescription;
         this.mIcon = mIcon;
         this.mCurrentTemp = mCurrentTemp;

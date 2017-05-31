@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import models.DayForecast;
@@ -33,8 +34,9 @@ import okhttp3.Callback;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-         @BindView(R.id.zipCodeEditText) EditText mZipCodeEditText;
-            public DayForecast mDayForecast;
+        @BindView(R.id.zipCodeEditText) EditText mZipCodeEditText;
+        public ArrayList<DayForecast>  mDayForecast;
+        public static String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,27 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            String location = mZipCodeEditText.getText().toString();
-                Log.i("location", location);
+                String location = mZipCodeEditText.getText().toString();
+                ApiService.getWeather(location, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                       mDayForecast = ApiService.processResults(response);
+
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView test = (TextView) findViewById(R.id.textView3);
+                                test.setText(mDayForecast.get(0).getmName());
+                            }
+                        });
+
+                    }
+                });
 
             }
         });
@@ -107,6 +128,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+
 
         } else if (id == R.id.nav_slideshow) {
 
